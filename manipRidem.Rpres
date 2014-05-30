@@ -1,0 +1,401 @@
+Data Manipulation in R
+========================================================
+author: Nathan Byers
+date: May 29, 2014
+
+Topics
+========================================================
+
+- Subsetting
+- Merging
+- Reshaping
+
+Subsetting
+========================================================
+type: section
+
+Subsetting
+========================================================
+- We'll begin by loading the `airquality` data frame
+```{r}
+data(airquality)
+```
+- For a description of the data frame, type `?airquality`
+
+Subsetting
+========================================================
+First, the best way to take a quick look at the top of a data frame is to use the `head()` function
+```{r}
+head(airquality)
+```
+
+Subsetting
+========================================================
+You can specify the number of lines to display by using the `n =` parameter
+```{r}
+head(airquality, n = 3)
+```
+
+Subsetting
+========================================================
+You can also look at the bottom of the data frame by using `tail()`
+```{r}
+tail(airquality)
+```
+
+Subsetting
+========================================================
+
+- We will begin subsetting this data frame by using the `[` function, i.e. brackets
+```{r, eval = FALSE}
+airquality[ , ]
+```
+- Remember, the convention is `[rows, columns]`
+
+Subsetting
+========================================================
+
+To get one row of the data frame, specify the row number you would like in the brackets, on the left side of the comma
+```{r}
+airquality[1, ]
+```
+
+Subsetting
+=======================================================
+If you want more than one row, you can supply a vector of row numbers
+```{r}
+airquality[c(1, 2, 3), ]
+```
+
+Subsetting
+========================================================
+To get a column from the data frame, specify the column number in the brackets, to the right of the comma
+```{r}
+airquality[, 1]
+```
+
+Subsetting
+========================================================
+You can also obtain more than one column by supplying a vector of column numbers
+```{r}
+airquality[, c(3, 4, 5)]
+```
+
+Subsetting
+========================================================
+Column names can also be used
+```{r}
+airquality[, "Solar.R"]
+```
+
+Subsetting
+========================================================
+Or a vector of column names
+```{r}
+airquality[, c("Ozone", "Temp", "Day")]
+```
+
+Subsetting
+========================================================
+Both rows and columns can be specified
+```{r}
+airquality[1:5, 3:5]
+```
+
+Subsetting
+========================================================
+- A data frame can also be subset by using logical expressions
+- Typically, the logical expression is used to specify rows that you want to keep
+```{r, eval=FALSE}
+airquality[(logical expression), ]
+```
+
+Subsetting
+========================================================
+- For example, let's say we only want rows in this data frame where ozone was above 15ppb
+- (For convenience, and to save space, I rename the data frame)
+```{r}
+aq <- airquality
+aq[(aq$Ozone > 15), ]
+```
+
+Subsetting
+========================================================
+- The logical expression actually returns logical vector
+```{r}
+logical.vector <- aq$Ozone > 15
+class(logical.vector)
+logical.vector[1:5] # return the first 5
+```
+
+Subsetting
+========================================================
+- So, the way the logical vector subsets the data frame is by providing a vector that indicates if a row should be kept (TRUE) or dropped (FALSE)
+- We can also use the variable `logical.vector` to do the same thing
+```{r}
+aq[logical.vector, ]
+```
+
+
+Subsetting
+========================================================
+If we wanted all of the days in the 7th month, we would use
+```{r}
+aq[(aq$Month == 7), ]
+```
+
+Subsetting
+========================================================
+Or if we want all days except the 6th day, use `!=`
+```{r}
+aq[(aq$Day != 6), ]
+```
+
+Subsetting
+========================================================
+- We can combine logical conditions with `&` (*and* operator) 
+- If we wanted only rows where the temperature was between 65 and 70 (including those numbers)
+```{r}
+aq[(aq$Temp >= 65 & aq$Temp <= 70), ]
+```
+
+Subsetting
+========================================================
+- We can also use the *or* operator, `|`
+- If we only wanted rows on days 3 or 5
+```{r}
+aq[(aq$Day == 3 | aq$Day == 5),]
+```
+
+Subsetting
+========================================================
+- You can also use the `subset()` function
+- The first argument is the data frame and the second argument is the logical expression
+```{r}
+subset(aq, Temp > 80)
+```
+
+Subsetting
+========================================================
+By using the `select =` parameter you can specify which columns to keep
+```{r}
+subset(aq, Temp > 80, select = c(Ozone, Temp))
+```
+
+Combining
+========================================================
+type: section
+
+Merging
+========================================================
+- There are two basic ways to combine data frames
+- The first is by sticking (or binding) two data frames together
+- The second is by merging two data frames 
+
+Merging
+========================================================
+- `rbind()` is a way to add rows to a data frame
+- You can think of it as stacking two data frames on top of each other
+- The restrictions are that both data frames must have the same number of columns, and the column names must match
+
+Merging
+========================================================
+Lets split the air quality data frame and `rbind` them
+```{r}
+aq1 <- aq[1:2, ]
+aq2 <- aq[35:37, ]
+aq.stacked <- rbind(aq1, aq2)
+aq.stacked
+```
+
+Merging
+========================================================
+If the number of columns aren't the same, it won't work
+```{r}
+aq1.chopped <- aq1[, 1:3]
+aq1.chopped
+```
+```{r, eval=FALSE}
+rbind(aq1.chopped, aq2) # gives an error
+```
+
+
+
+Merging
+========================================================
+If the column names aren't the same, it won't work
+```{r}
+names(aq1)[1] <- "nuh"
+aq1
+```
+```{r, eval=FALSE}
+rbind(aq1, aq2) # gives an error
+```
+
+Merging
+========================================================
+- `cbind()` is a way to add columns to a data frame
+- The restriction is that both data frames must have the same number of rows
+
+Merging
+========================================================
+Now we'll split the data frame by columns and `cbind` them
+```{r}
+aq.L <- aq[, 1:2]
+aq.R <- aq[, 4:5]
+aq.bound <- cbind(aq.L, aq.R)
+aq.bound
+```
+
+Merging
+========================================================
+If both data frames don't have the same number of rows, it won't work
+```{r, eval=FALSE}
+cbind(aq.L[1:10], aq.R) # gives an error
+```
+
+Merging
+========================================================
+- `merge()` allows you to combine two data frames that may not have the same dimensions or column names
+- The two data frames are merged on the column names that both data frames have, or the columns can be specified
+- See `?merge()` for details
+
+Merging
+========================================================
+Here's a data frame with two air monitor locations
+
+```{r}
+monitors <- read.table(header=T, text='
+  monitorid        lat       long                 
+          1  42.467573 -87.810047     
+          2  42.049148 -88.273029
+          3  39.110539 -90.324080
+                       ')
+```
+
+Merging
+========================================================
+And here's a data frame with pollutant and monitor information
+```{r}
+pollutants <- read.table(header=T, text='
+  pollutant   duration    monitorid                 
+      ozone         1h            1
+        so2         1h            1
+      ozone         8h            2
+        no2         1h            4
+                       ')
+```
+
+Merging
+========================================================
+- Suppose you want to merge both data frames
+```{r}
+merge(monitors, pollutants)
+```
+- The default operation is an "inner join" on the two data frames
+- Only rows that have matched `monitorid` values are kept
+
+Merging
+========================================================
+If you want to keep all of the rows in the pollutant data frame, you can use the `all.y =` parameter
+```{r}
+merge(monitors, pollutants, all.y = T)
+```
+
+Merging
+========================================================
+If you wanted to keep all of the monitor locations, you would use `all.x =T`
+```{r}
+merge(monitors, pollutants, all.x = T)
+```
+
+Merging
+========================================================
+If you wanted to keep all of the information, you can do an "outer join" using `all =T`
+```{r}
+merge(monitors, pollutants, all = T)
+```
+
+Reshaping
+========================================================
+type: section
+
+Reshaping
+========================================================
+- Sometimes a data frame is in what is called a "wide" format, but we want it in a long format (or vice versa)
+- The easiest way to do this is to use the `reshape2` package
+
+Reshaping
+========================================================
+- Here's a data frame in a wide format
+- We have a few days of monitor values for a few pollutants from one monitor
+```{r}
+wide <- read.table(header=T, text='
+  day  temp  ozone  so2  no2
+    1    75     50   10    2
+    2    81     61   25   12
+    3    68     42   22    3           
+                         ')
+```
+
+Reshaping
+========================================================
+- We may not want all of the measurements to be in separate columns
+- If we want all of the values to be in one column, with one column indicating what pollutant or met parameter being measured, we would use the 'melt()` function from the `reshape2` package
+```{r, eval=FALSE}
+library(reshape2)
+melt(wide, id.vars = c("day"))
+```
+
+Reshaping
+========================================================
+
+```{r, echo=FALSE}
+library(reshape2)
+melt(wide, id.vars = c("day"))
+```
+                         
+Reshaping
+========================================================
+If we had more than one monitor
+```{r}
+wide <- read.table(header=T, text='
+  day  monitor temp  ozone  so2  no2
+    1        1   75     50   10    2
+    2        1   81     61   25   12
+    3        1   68     42   22    3  
+    1        2   72     51   10    3
+    2        2   85     63   25   13
+    3        2   66     45   22    2 
+                         ')
+```
+
+Reshaping
+========================================================
+```{r}
+melt(wide, id.vars = c("day", "monitor"))
+```
+
+Reshaping
+========================================================
+- To take a long data frame and convert it to a wide data frame, we use the `dcast()` function
+- We'll use the long data frame we just created using the melt function
+```{r}
+long <- melt(wide, id.vars = c("day", "monitor"))
+```
+
+Reshaping
+========================================================
+- We want to keep the columns `day` and `monitor` the same
+- `variable` is the column that will contain the names of the new columns
+- `value` contains the measurements
+
+Reshaping
+========================================================
+```{r}
+dcast(long, day + monitor ~ variable, value.var="value")
+```
+
+=======================================================
+- These slides 
+
