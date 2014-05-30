@@ -7,7 +7,7 @@ Topics
 ========================================================
 
 - [Subsetting](#/sub)
-- [Merging](#/merg)
+- [Combining](#/comb)
 - [Reshaping](#/resh)
 
 Subsetting
@@ -1256,24 +1256,24 @@ subset(aq, Temp > 80, select = c(Ozone, Temp))
 ```
 
 
-Merging
+Combining
 ========================================================
 type: section
-id: merg
+id: comb
 
-Merging
+Combining
 ========================================================
 - There are two basic ways to combine data frames
 - The first is by sticking (or binding) two data frames together
 - The second is by merging two data frames 
 
-Merging
+Combining
 ========================================================
 - `rbind()` is a way to add rows to a data frame
 - You can think of it as stacking two data frames on top of each other
 - The restrictions are that both data frames must have the same number of columns, and the column names must match
 
-Merging
+Combining
 ========================================================
 Lets take two subsets of the air quality data frame and `rbind` them
 
@@ -1294,7 +1294,7 @@ aq.stacked
 ```
 
 
-Merging
+Combining
 ========================================================
 If the number of columns aren't the same, it won't work
 
@@ -1317,7 +1317,7 @@ rbind(aq1.chopped, aq2) # gives an error
 
 
 
-Merging
+Combining
 ========================================================
 If the column names aren't the same, it won't work
 
@@ -1338,12 +1338,12 @@ rbind(aq1, aq2) # gives an error
 ```
 
 
-Merging
+Combining
 ========================================================
 - `cbind()` is a way to add columns to a data frame
 - The restriction is that both data frames must have the same number of rows
 
-Merging
+Combining
 ========================================================
 Now we'll split the data frame by columns and `cbind` them
 
@@ -1512,7 +1512,7 @@ aq.bound
 ```
 
 
-Merging
+Combining
 ========================================================
 If both data frames don't have the same number of rows, it won't work
 
@@ -1521,13 +1521,13 @@ cbind(aq.L[1:10], aq.R) # gives an error
 ```
 
 
-Merging
+Combining
 ========================================================
 - `merge()` allows you to combine two data frames that may not have the same dimensions or column names
 - The two data frames are merged on the column names that both data frames have, or the columns can be specified
 - See `?merge()` for details
 
-Merging
+Combining
 ========================================================
 Here's a data frame with three air monitor locations
 
@@ -1542,7 +1542,7 @@ monitors <- read.table(header=T, text='
 ```
 
 
-Merging
+Combining
 ========================================================
 And here's a data frame with pollutant and monitor information
 
@@ -1557,7 +1557,7 @@ pollutants <- read.table(header=T, text='
 ```
 
 
-Merging
+Combining
 ========================================================
 - Suppose you want to merge both data frames
 
@@ -1575,7 +1575,7 @@ merge(monitors, pollutants)
 - The default operation is an "inner join" on the two data frames
 - Only rows that have matched `monitorid` values are kept
 
-Merging
+Combining
 ========================================================
 If you want to keep all of the rows in the pollutant data frame, you can use the `all.y =` parameter
 
@@ -1592,7 +1592,7 @@ merge(monitors, pollutants, all.y = T)
 ```
 
 
-Merging
+Combining
 ========================================================
 If you wanted to keep all of the monitor locations, you would use `all.x = T`
 
@@ -1609,7 +1609,7 @@ merge(monitors, pollutants, all.x = T)
 ```
 
 
-Merging
+Combining
 ========================================================
 If you wanted to keep all of the information, you can do an "outer join" using `all = T`
 
@@ -1655,7 +1655,7 @@ wide <- read.table(header=T, text='
 Reshaping
 ========================================================
 - We may not want all of the measurements to be in separate columns
-- If we want all of the values to be in one column, with one column indicating what pollutant or met parameter being measured, we would use the `melt()` function from the `reshape2` package
+- If we want all of the values to be in one column, with one column indicating what pollutant or met parameter is being measured, we would use the `melt()` function from the `reshape2` package
 
 ```r
 library(reshape2)
