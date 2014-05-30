@@ -1768,6 +1768,9 @@ dcast(long, day + monitor ~ variable, value.var="value")
 ```
 
 
+R Slides
 =======================================================
-- These slides 
+- See the <a href="http://rpubs.com/NateByers/introR3" target="_blank">introductory slides</a> for a review of R basics
+- These presentations were created using RStudio's <a href="http://www.rstudio.com/ide/docs/presentations/overview?version=0.98.501&mode=desktop" target="_blank">"R Presentations"</a>
+- The code for this presentation can be found here: <a href="https://github.com/NateByers/IntroRpresentation2" target="_blank"> https://github.com/NateByers/introRidem.git</a> 
 
