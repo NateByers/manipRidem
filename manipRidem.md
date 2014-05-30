@@ -1,18 +1,19 @@
 Data Manipulation in R
 ========================================================
 author: Nathan Byers
-date: May 29, 2014
+date: May 30, 2014
 
 Topics
 ========================================================
 
-- Subsetting
-- Merging
-- Reshaping
+- [Subsetting](#/sub)
+- [Merging](#/merg)
+- [Reshaping](#/resh)
 
 Subsetting
 ========================================================
 type: section
+id: sub
 
 Subsetting
 ========================================================
@@ -1255,9 +1256,10 @@ subset(aq, Temp > 80, select = c(Ozone, Temp))
 ```
 
 
-Combining
+Merging
 ========================================================
 type: section
+id: merg
 
 Merging
 ========================================================
@@ -1273,7 +1275,7 @@ Merging
 
 Merging
 ========================================================
-Lets split the air quality data frame and `rbind` them
+Lets take two subsets of the air quality data frame and `rbind` them
 
 ```r
 aq1 <- aq[1:2, ]
@@ -1320,14 +1322,14 @@ Merging
 If the column names aren't the same, it won't work
 
 ```r
-names(aq1)[1] <- "nuh"
+names(aq1)[1] <- "nuhuh"
 aq1
 ```
 
 ```
-  nuh Solar.R Wind Temp Month Day
-1  41     190  7.4   67     5   1
-2  36     118  8.0   72     5   2
+  nuhuh Solar.R Wind Temp Month Day
+1    41     190  7.4   67     5   1
+2    36     118  8.0   72     5   2
 ```
 
 
@@ -1527,7 +1529,7 @@ Merging
 
 Merging
 ========================================================
-Here's a data frame with two air monitor locations
+Here's a data frame with three air monitor locations
 
 
 ```r
@@ -1592,7 +1594,7 @@ merge(monitors, pollutants, all.y = T)
 
 Merging
 ========================================================
-If you wanted to keep all of the monitor locations, you would use `all.x =T`
+If you wanted to keep all of the monitor locations, you would use `all.x = T`
 
 ```r
 merge(monitors, pollutants, all.x = T)
@@ -1609,7 +1611,7 @@ merge(monitors, pollutants, all.x = T)
 
 Merging
 ========================================================
-If you wanted to keep all of the information, you can do an "outer join" using `all =T`
+If you wanted to keep all of the information, you can do an "outer join" using `all = T`
 
 ```r
 merge(monitors, pollutants, all = T)
@@ -1628,16 +1630,17 @@ merge(monitors, pollutants, all = T)
 Reshaping
 ========================================================
 type: section
+id: resh
 
 Reshaping
 ========================================================
-- Sometimes a data frame is in what is called a "wide" format, but we want it in a long format (or vice versa)
+- Sometimes a data frame is in a "wide" format, but we want it in a "long"" format (or vice versa)
 - The easiest way to do this is to use the `reshape2` package
 
 Reshaping
 ========================================================
 - Here's a data frame in a wide format
-- We have a few days of monitor values for a few pollutants from one monitor
+- We have a few days of monitor values for sevaral pollutants (and temperature) from one monitor
 
 ```r
 wide <- read.table(header=T, text='
@@ -1652,7 +1655,7 @@ wide <- read.table(header=T, text='
 Reshaping
 ========================================================
 - We may not want all of the measurements to be in separate columns
-- If we want all of the values to be in one column, with one column indicating what pollutant or met parameter being measured, we would use the 'melt()` function from the `reshape2` package
+- If we want all of the values to be in one column, with one column indicating what pollutant or met parameter being measured, we would use the `melt()` function from the `reshape2` package
 
 ```r
 library(reshape2)
@@ -1683,7 +1686,7 @@ Reshaping
                          
 Reshaping
 ========================================================
-If we had more than one monitor
+If we had more than one monitor with a `monitor` column, we would include it as an id variable
 
 ```r
 wide <- read.table(header=T, text='

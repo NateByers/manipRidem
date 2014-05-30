@@ -749,7 +749,7 @@ hljs.initHighlightingOnLoad();
   <div class="slides">
 
 <section data-state="section" data-transition="linear" data-transition-speed="default">
-<h1>Data Manipulation in R</h1><p>Nathan Byers<br/>May 29, 2014</p>
+<h1>Data Manipulation in R</h1><p>Nathan Byers<br/>May 30, 2014</p>
 
 <div class="slideContent" >
 
@@ -760,15 +760,15 @@ hljs.initHighlightingOnLoad();
 <h3>Topics</h3>
 <div class="slideContent" >
 <ul>
-<li>Subsetting</li>
-<li>Merging</li>
-<li>Reshaping</li>
+<li><a href="#/sub">Subsetting</a></li>
+<li><a href="#/merg">Merging</a></li>
+<li><a href="#/resh">Reshaping</a></li>
 </ul>
 
 </div>
 
 </section>
-<section data-state="section" data-transition="linear" data-transition-speed="default">
+<section id="sub" data-state="section" data-transition="linear" data-transition-speed="default">
 <h2>Subsetting</h2>
 <div class="slideContent" >
 
@@ -2060,8 +2060,8 @@ NA.36    NA      NA   NA   NA    NA  NA
 </div>
 
 </section>
-<section data-state="section" data-transition="linear" data-transition-speed="default">
-<h2>Combining</h2>
+<section id="merg" data-state="section" data-transition="linear" data-transition-speed="default">
+<h2>Merging</h2>
 <div class="slideContent" >
 
 </div>
@@ -2094,7 +2094,7 @@ NA.36    NA      NA   NA   NA    NA  NA
 <section data-transition="linear" data-transition-speed="default">
 <h3>Merging</h3>
 <div class="slideContent" >
-<p>Lets split the air quality data frame and <code>rbind</code> them</p>
+<p>Lets take two subsets of the air quality data frame and <code>rbind</code> them</p>
 
 <pre><code class="r">aq1 &lt;- aq[1:2, ]
 aq2 &lt;- aq[35:37, ]
@@ -2138,13 +2138,13 @@ aq1.chopped
 <div class="slideContent" >
 <p>If the column names aren&#39;t the same, it won&#39;t work</p>
 
-<pre><code class="r">names(aq1)[1] &lt;- &quot;nuh&quot;
+<pre><code class="r">names(aq1)[1] &lt;- &quot;nuhuh&quot;
 aq1
 </code></pre>
 
-<pre><code>  nuh Solar.R Wind Temp Month Day
-1  41     190  7.4   67     5   1
-2  36     118  8.0   72     5   2
+<pre><code>  nuhuh Solar.R Wind Temp Month Day
+1    41     190  7.4   67     5   1
+2    36     118  8.0   72     5   2
 </code></pre>
 
 <pre><code class="r">rbind(aq1, aq2) # gives an error
@@ -2360,7 +2360,7 @@ aq.bound
 <section data-transition="linear" data-transition-speed="default">
 <h3>Merging</h3>
 <div class="slideContent" >
-<p>Here&#39;s a data frame with two air monitor locations</p>
+<p>Here&#39;s a data frame with three air monitor locations</p>
 
 <pre><code class="r">monitors &lt;- read.table(header=T, text=&#39;
   monitorid        lat       long                 
@@ -2435,7 +2435,7 @@ aq.bound
 <section data-transition="linear" data-transition-speed="default">
 <h3>Merging</h3>
 <div class="slideContent" >
-<p>If you wanted to keep all of the monitor locations, you would use <code>all.x =T</code></p>
+<p>If you wanted to keep all of the monitor locations, you would use <code>all.x = T</code></p>
 
 <pre><code class="r">merge(monitors, pollutants, all.x = T)
 </code></pre>
@@ -2453,7 +2453,7 @@ aq.bound
 <section data-transition="linear" data-transition-speed="default">
 <h3>Merging</h3>
 <div class="slideContent" >
-<p>If you wanted to keep all of the information, you can do an &ldquo;outer join&rdquo; using <code>all =T</code></p>
+<p>If you wanted to keep all of the information, you can do an &ldquo;outer join&rdquo; using <code>all = T</code></p>
 
 <pre><code class="r">merge(monitors, pollutants, all = T)
 </code></pre>
@@ -2469,7 +2469,7 @@ aq.bound
 </div>
 
 </section>
-<section data-state="section" data-transition="linear" data-transition-speed="default">
+<section id="resh" data-state="section" data-transition="linear" data-transition-speed="default">
 <h2>Reshaping</h2>
 <div class="slideContent" >
 
@@ -2480,7 +2480,7 @@ aq.bound
 <h3>Reshaping</h3>
 <div class="slideContent" >
 <ul>
-<li>Sometimes a data frame is in what is called a &ldquo;wide&rdquo; format, but we want it in a long format (or vice versa)</li>
+<li>Sometimes a data frame is in a &ldquo;wide&rdquo; format, but we want it in a &ldquo;long&rdquo;&ldquo; format (or vice versa)</li>
 <li>The easiest way to do this is to use the <code>reshape2</code> package</li>
 </ul>
 
@@ -2492,7 +2492,7 @@ aq.bound
 <div class="slideContent" >
 <ul>
 <li>Here&#39;s a data frame in a wide format</li>
-<li>We have a few days of monitor values for a few pollutants from one monitor</li>
+<li>We have a few days of monitor values for sevaral pollutants (and temperature) from one monitor</li>
 </ul>
 
 <pre><code class="r">wide &lt;- read.table(header=T, text=&#39;
@@ -2511,7 +2511,7 @@ aq.bound
 <div class="slideContent" >
 <ul>
 <li>We may not want all of the measurements to be in separate columns</li>
-<li>If we want all of the values to be in one column, with one column indicating what pollutant or met parameter being measured, we would use the &#39;melt()<code>function from the</code>reshape2 package</li>
+<li>If we want all of the values to be in one column, with one column indicating what pollutant or met parameter being measured, we would use the <code>melt()</code> function from the <code>reshape2</code> package</li>
 </ul>
 
 <pre><code class="r">library(reshape2)
@@ -2545,7 +2545,7 @@ melt(wide, id.vars = c(&quot;day&quot;))
 <section data-transition="linear" data-transition-speed="default">
 <h3>Reshaping</h3>
 <div class="slideContent" >
-<p>If we had more than one monitor</p>
+<p>If we had more than one monitor with a <code>monitor</code> column, we would include it as an id variable</p>
 
 <pre><code class="r">wide &lt;- read.table(header=T, text=&#39;
   day  monitor temp  ozone  so2  no2
