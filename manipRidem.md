@@ -1578,7 +1578,7 @@ merge(monitors, pollutants)
 
 Combining
 ========================================================
-If you wanted to keep all of the monitor locations ("left join"), you would use `all.x = T`
+If you wanted to keep all of the monitor locations ("left join"), you would use the `all.x = T` parameter
 
 ```r
 merge(monitors, pollutants, all.x = T)
@@ -1596,7 +1596,7 @@ merge(monitors, pollutants, all.x = T)
 
 Combining
 ========================================================
-If you want to keep all of the rows in the pollutant data frame ("right join"), you can use the `all.y =` parameter
+If you want to keep all of the rows in the pollutant data frame ("right join"), you can use `all.y =`
 
 ```r
 merge(monitors, pollutants, all.y = T)
@@ -1778,5 +1778,5 @@ R Slides
 =======================================================
 - See the <a href="http://rpubs.com/NateByers/introRidem" target="_blank">introductory slides</a> for a review of R basics
 - These presentations were created using RStudio's <a href="http://www.rstudio.com/ide/docs/presentations/overview?version=0.98.501&mode=desktop" target="_blank">"R Presentations"</a>
-- The code for this presentation can be found here: <a href="https://github.com/NateByers/IntroRpresentation2" target="_blank"> https://github.com/NateByers/manipRidem.git</a> 
+- The code for this presentation can be found here: <a href="https://github.com/NateByers/IntroRpresentation2" target="_blank"> https://github.com/NateByers/manipRidem</a> 
 
