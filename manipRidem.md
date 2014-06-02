@@ -82,7 +82,7 @@ tail(airquality)
 Subsetting
 ========================================================
 
-- We will begin subsetting this data frame by using the `[` function, i.e. brackets
+- First we'll subset this data frame by using the `[` function, i.e. brackets
 
 ```r
 airquality[ , ]
@@ -93,7 +93,7 @@ airquality[ , ]
 Subsetting
 ========================================================
 
-To get one row of the data frame, specify the row number you would like in the brackets, on the left side of the comma
+To get one row of the data frame, specify the row number you would like in the brackets, on the left side of the comma (it's returned as a vector)
 
 ```r
 airquality[1, ]
@@ -123,7 +123,8 @@ airquality[c(1, 2, 3), ]
 
 Subsetting
 ========================================================
-To get a column from the data frame, specify the column number in the brackets, to the right of the comma
+To get a column from the data frame, specify the column number in the brackets, to the right of the comma 
+
 
 ```r
 airquality[, 1]
@@ -144,7 +145,7 @@ airquality[, 1]
 
 Subsetting
 ========================================================
-You can also obtain more than one column by supplying a vector of column numbers
+You can obtain more than one column by supplying a vector of column numbers
 
 ```r
 airquality[, c(3, 4, 5)]
@@ -516,7 +517,7 @@ airquality[1:5, 3:5]
 Subsetting
 ========================================================
 - A data frame can also be subset by using logical expressions
-- Typically, the logical expression is used to specify rows that you want to keep
+- The logical expression is used to specify rows that you want to keep
 
 ```r
 airquality[(logical expression), ]
@@ -669,7 +670,7 @@ NA.36    NA      NA   NA   NA    NA  NA
 
 Subsetting
 ========================================================
-- The logical expression actually returns logical vector
+- The logical expression actually returns a logical vector
 
 ```r
 logical.vector <- aq$Ozone > 15
@@ -692,7 +693,7 @@ logical.vector[1:5] # return the first 5
 Subsetting
 ========================================================
 - So, the way the logical vector subsets the data frame is by providing a vector that indicates if a row should be kept (TRUE) or dropped (FALSE)
-- We can also use the variable `logical.vector` to do the same thing
+- We can use the variable `logical.vector` to do the same thing
 
 ```r
 aq[logical.vector, ]
@@ -835,7 +836,7 @@ NA.36    NA      NA   NA   NA    NA  NA
 
 Subsetting
 ========================================================
-If we wanted all of the days in the 7th month, we would use
+If we wanted all of the days in the 7th month, we could use `==`
 
 ```r
 aq[(aq$Month == 7), ]
@@ -1095,7 +1096,7 @@ aq[(aq$Day == 3 | aq$Day == 5),]
 
 Subsetting
 ========================================================
-- You can also use the `subset()` function
+- You can also use the `subset()` function 
 - The first argument is the data frame and the second argument is the logical expression
 
 ```r
@@ -1265,7 +1266,7 @@ Combining
 ========================================================
 - There are two basic ways to combine data frames
 - The first is by sticking (or binding) two data frames together
-- The second is by merging two data frames 
+- The second is by merging  
 
 Combining
 ========================================================
@@ -1517,14 +1518,14 @@ Combining
 If both data frames don't have the same number of rows, it won't work
 
 ```r
-cbind(aq.L[1:10], aq.R) # gives an error
+cbind(aq.L[1:10, ], aq.R) # gives an error
 ```
 
 
 Combining
 ========================================================
 - `merge()` allows you to combine two data frames that may not have the same dimensions or column names
-- The two data frames are merged on the column names that both data frames have, or the columns can be specified
+- The two data frames are merged on the column names that both data frames have, or the columns to be merged on can be specified
 - See `?merge()` for details
 
 Combining
@@ -1577,7 +1578,25 @@ merge(monitors, pollutants)
 
 Combining
 ========================================================
-If you want to keep all of the rows in the pollutant data frame, you can use the `all.y =` parameter
+If you wanted to keep all of the monitor locations ("left join"), you would use `all.x = T`
+
+```r
+merge(monitors, pollutants, all.x = T)
+```
+
+```
+  monitorid   lat   long pollutant duration
+1         1 42.47 -87.81     ozone       1h
+2         1 42.47 -87.81       so2       1h
+3         2 42.05 -88.27     ozone       8h
+4         3 39.11 -90.32      <NA>     <NA>
+```
+
+
+
+Combining
+========================================================
+If you want to keep all of the rows in the pollutant data frame ("right join"), you can use the `all.y =` parameter
 
 ```r
 merge(monitors, pollutants, all.y = T)
@@ -1591,22 +1610,6 @@ merge(monitors, pollutants, all.y = T)
 4         4    NA     NA       no2       1h
 ```
 
-
-Combining
-========================================================
-If you wanted to keep all of the monitor locations, you would use `all.x = T`
-
-```r
-merge(monitors, pollutants, all.x = T)
-```
-
-```
-  monitorid   lat   long pollutant duration
-1         1 42.47 -87.81     ozone       1h
-2         1 42.47 -87.81       so2       1h
-3         2 42.05 -88.27     ozone       8h
-4         3 39.11 -90.32      <NA>     <NA>
-```
 
 
 Combining
@@ -1655,7 +1658,7 @@ wide <- read.table(header=T, text='
 Reshaping
 ========================================================
 - We may not want all of the measurements to be in separate columns
-- If we want all of the values to be in one column, with one column indicating what pollutant or met parameter is being measured, we would use the `melt()` function from the `reshape2` package
+- If we want all of the values to be in one column, with another column indicating what pollutant or met parameter is being measured, we would use the `melt()` function from the `reshape2` package
 
 ```r
 library(reshape2)
@@ -1686,7 +1689,7 @@ Reshaping
                          
 Reshaping
 ========================================================
-If we had more than one monitor with a `monitor` column, we would include it as an id variable
+If we had a table with more than one monitor, with a separate `monitor` column, we would include it as an id variable
 
 ```r
 wide <- read.table(header=T, text='
@@ -1740,7 +1743,7 @@ melt(wide, id.vars = c("day", "monitor"))
 Reshaping
 ========================================================
 - To take a long data frame and convert it to a wide data frame, we use the `dcast()` function
-- We'll use the long data frame we just created using the melt function
+- We'll use the long data frame we just created
 
 ```r
 long <- melt(wide, id.vars = c("day", "monitor"))
@@ -1773,7 +1776,7 @@ dcast(long, day + monitor ~ variable, value.var="value")
 
 R Slides
 =======================================================
-- See the <a href="http://rpubs.com/NateByers/introR3" target="_blank">introductory slides</a> for a review of R basics
+- See the <a href="http://rpubs.com/NateByers/introRidem" target="_blank">introductory slides</a> for a review of R basics
 - These presentations were created using RStudio's <a href="http://www.rstudio.com/ide/docs/presentations/overview?version=0.98.501&mode=desktop" target="_blank">"R Presentations"</a>
-- The code for this presentation can be found here: <a href="https://github.com/NateByers/IntroRpresentation2" target="_blank"> https://github.com/NateByers/introRidem.git</a> 
+- The code for this presentation can be found here: <a href="https://github.com/NateByers/IntroRpresentation2" target="_blank"> https://github.com/NateByers/manipRidem.git</a> 
 
