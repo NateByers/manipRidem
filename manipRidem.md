@@ -93,7 +93,7 @@ airquality[ , ]
 Subsetting
 ========================================================
 
-To get one row of the data frame, specify the row number you would like in the brackets, on the left side of the comma (it's returned as a vector)
+To get one row of the data frame, specify the row number you would like in the brackets, on the left side of the comma 
 
 ```r
 airquality[1, ]
@@ -123,7 +123,7 @@ airquality[c(1, 2, 3), ]
 
 Subsetting
 ========================================================
-To get a column from the data frame, specify the column number in the brackets, to the right of the comma 
+To get a column from the data frame, specify the column number in the brackets, to the right of the comma (it's returned as a vector)
 
 
 ```r
